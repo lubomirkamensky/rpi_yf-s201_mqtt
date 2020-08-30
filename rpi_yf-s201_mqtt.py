@@ -58,6 +58,14 @@ class Element:
         except Exception as exc:
             logging.error("Error reading "+self.topic+": %s", exc)
 
+class WaterFlow:
+    def __init__(self,totalFlow,minuteFlow,tot_cnt):
+        self.totalFlow=totalFlow
+        self.minuteFlow=minuteFlow
+        self.tot_cnt=tot_cnt
+
+    def write(self):
+        pass
 try:
     mqc=mqtt.Client()
     mqc.connect(config['MQTT']['host'],int(config['MQTT']['port']),10)
@@ -105,6 +113,9 @@ try:
             time_start = time.time()
 
             while pulses <= 5:
+                if time.time()>close_time and tot_cnt > int(config['Calibration']['tot_cnt']):
+                    pass
+
                 gpio_cur = GPIO.input(INPT)
 
                 if gpio_cur != 0 and gpio_cur != gpio_last:
