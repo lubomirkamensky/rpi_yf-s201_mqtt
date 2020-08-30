@@ -39,8 +39,8 @@ frequency=int(config['MQTT']['frequency'])
 lastValue = {}
 
 INPT = int(config['GpioPins']['inpt'])
-CONSTANT= float(config['Calibration']['constant'])
-TOT_CNT = int(config['Calibration']['tot_cnt'])
+constant = float(config['Calibration']['constant'])
+tot_cnt = int(config['Calibration']['tot_cnt'])
 
 class Element:
     def __init__(self,row):
@@ -95,7 +95,7 @@ try:
                 for e in elements:
                     e.publish()
 
-                config.set('Calibration', 'tot_cnt', tot_cnt)
+                config.set('Calibration', 'tot_cnt', str(tot_cnt))
                 break
 
             rate_cnt = 0
@@ -107,7 +107,8 @@ try:
 
                 if gpio_cur != 0 and gpio_cur != gpio_last:
                     pulses += 1
-                    gpio_last = gpio_cur
+               
+                gpio_last = gpio_cur
 
             rate_cnt += 1
             tot_cnt += 1
