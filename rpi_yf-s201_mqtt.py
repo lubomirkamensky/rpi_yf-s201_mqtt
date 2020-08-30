@@ -96,6 +96,8 @@ try:
                     e.publish()
 
                 config.set('Calibration', 'tot_cnt', str(tot_cnt))
+                with open(os.path.join(sys.path[0], args.configuration), 'w') as configfile:
+                    config.write(configfile)
                 break
 
             rate_cnt = 0
