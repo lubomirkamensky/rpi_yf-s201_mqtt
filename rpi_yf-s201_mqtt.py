@@ -114,7 +114,7 @@ try:
 
             while pulses <= 5:
                 if time.time()>close_time and tot_cnt > int(config['Calibration']['tot_cnt']):
-                    pass
+                    break
 
                 gpio_cur = GPIO.input(INPT)
 
@@ -123,14 +123,15 @@ try:
                
                 gpio_last = gpio_cur
 
-            rate_cnt += 1
-            tot_cnt += 1
-            time_end = time.time()
+            if pulses > 5:
+                rate_cnt += 1
+                tot_cnt += 1
+                time_end = time.time()
 
-            print('\nLiters / min ' , round((rate_cnt * constant) / (time_end-time_start), 2) , 'approximate')
-            minuteFlow.append(round((rate_cnt * constant) / (time_end-time_start), 2))
-            print('Total Liters ', round(tot_cnt * constant,1))
-            totalFlow.append(round(tot_cnt * constant,1))
+                print('\nLiters / min ' , round((rate_cnt * constant) / (time_end-time_start), 2) , 'approximate')
+                minuteFlow.append(round((rate_cnt * constant) / (time_end-time_start), 2))
+                print('Total Liters ', round(tot_cnt * constant,1))
+                totalFlow.append(round(tot_cnt * constant,1))
 
 except Exception as e:
     logging.error("Unhandled error [" + str(e) + "]")
